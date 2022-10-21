@@ -5,6 +5,7 @@ CONFIG -= qt
 
 SOURCES += \
         gamemodel.cpp \
+        gameview.cpp \
         main.cpp
 
 LIBS += -L$$PWD/../stf/release/ -lstf
@@ -18,4 +19,5 @@ DEPENDPATH += $$PWD/../stf \
               $$PWD/../stf/sdb \
 
 HEADERS += \
-    gamemodel.hpp
+    gamemodel.hpp \
+    gameview.hpp
