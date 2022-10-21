@@ -33,7 +33,23 @@ class GameModel : public BaseModel
 public:
     const Vec2d Size { 8, 8 };
 
-    GameModel();
+    GameModel()
+    {
+        reset();
+    }
+
+    void reset()
+    {
+        for(uint8_t &c : m_board) {
+            c = 'e';
+        }
+
+        m_board[0] = 'o';
+        m_board[63] = '*';
+
+        m_cursor = Cursor();
+        m_player = 0;
+    }
 
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
@@ -54,6 +70,7 @@ public:
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final { return nullptr; }
 
 private:
+    uint8_t m_board[64];
 
     Cursor m_cursor;
     uint8_t m_player = 'o';
