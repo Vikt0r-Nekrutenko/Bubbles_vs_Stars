@@ -15,9 +15,16 @@ struct Selector
 
 struct Cursor
 {
-    Selector selectedCell { {0,0}, 'o' };
+    Selector selectedCell;
     Selector destinationCell;
     Selector *activeCursor = &destinationCell;
+
+    void switchCursor()
+    {
+        (activeCursor == &selectedCell)
+                ? activeCursor = &destinationCell
+                : activeCursor = &selectedCell;
+    }
 };
 
 class GameModel : public BaseModel
@@ -29,6 +36,7 @@ public:
     GameModel();
 
     inline const Cursor& cursor() const { return m_cursor; }
+    inline const uint8_t& player() const { return m_player; }
 
     IView* keyEventsHandler(IView* sender, const int key) final
     {
@@ -38,7 +46,7 @@ public:
           case 'a': if(m_cursor.activeCursor->pos.x > 0) m_cursor.activeCursor->pos -= Vec2d(1,0); break;
           case 's': if(m_cursor.activeCursor->pos.y < Size.y-1) m_cursor.activeCursor->pos += Vec2d(0,1); break;
           case 'd': if(m_cursor.activeCursor->pos.x < Size.x-1) m_cursor.activeCursor->pos += Vec2d(1,0); break;
-          case ' ': break;
+          case ' ': m_cursor.switchCursor(); break;
         }
         return nullptr;
     }
@@ -48,6 +56,7 @@ public:
 private:
 
     Cursor m_cursor;
+    uint8_t m_player = 'o';
 };
 
 #endif // GAMEMODEL_HPP
