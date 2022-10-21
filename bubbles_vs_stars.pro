@@ -4,9 +4,18 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        gamemodel.cpp \
         main.cpp
 
 LIBS += -L$$PWD/../stf/release/ -lstf
 
-INCLUDEPATH += $$PWD/../stf
-DEPENDPATH += $$PWD/../stf
+INCLUDEPATH += $$PWD/../stf \
+               $$PWD/../stf/smv \
+               $$PWD/../stf/sdb \
+
+DEPENDPATH += $$PWD/../stf \
+              $$PWD/../stf/smv \
+              $$PWD/../stf/sdb \
+
+HEADERS += \
+    gamemodel.hpp
