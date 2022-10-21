@@ -7,13 +7,21 @@
 using namespace stf;
 using namespace stf::smv;
 
+struct Selector
+{
+    Vec2d pos { 0, 0 };
+    uint8_t sym = 'e';
+};
+
+struct Cursor
+{
+    Selector selectedCell { {0,0}, 'o' };
+    Selector destinationCell;
+    Selector *activeCursor = &destinationCell;
+};
+
 class GameModel : public BaseModel
 {
-    struct Cursor
-    {
-        Vec2d selectedCell {0,0};
-        Vec2d destinationCell {0,0};
-    };
 
 public:
     const Vec2d Size { 8, 8 };
@@ -21,16 +29,15 @@ public:
     GameModel();
 
     inline const Cursor& cursor() const { return m_cursor; }
-    inline const uint8_t player() const { return m_player; }
 
     IView* keyEventsHandler(IView* sender, const int key) final
     {
         switch (key)
         {
-          case 'w': if(m_cursor.destinationCell.y > 0) m_cursor.destinationCell -= Vec2d(0,1); break;
-          case 'a': if(m_cursor.destinationCell.x > 0) m_cursor.destinationCell -= Vec2d(1,0); break;
-          case 's': if(m_cursor.destinationCell.y < Size.y-1) m_cursor.destinationCell += Vec2d(0,1); break;
-          case 'd': if(m_cursor.destinationCell.x < Size.x-1) m_cursor.destinationCell += Vec2d(1,0); break;
+          case 'w': if(m_cursor.activeCursor->pos.y > 0) m_cursor.activeCursor->pos -= Vec2d(0,1); break;
+          case 'a': if(m_cursor.activeCursor->pos.x > 0) m_cursor.activeCursor->pos -= Vec2d(1,0); break;
+          case 's': if(m_cursor.activeCursor->pos.y < Size.y-1) m_cursor.activeCursor->pos += Vec2d(0,1); break;
+          case 'd': if(m_cursor.activeCursor->pos.x < Size.x-1) m_cursor.activeCursor->pos += Vec2d(1,0); break;
           case ' ': break;
         }
         return nullptr;
@@ -41,7 +48,6 @@ public:
 private:
 
     Cursor m_cursor;
-    uint8_t m_player = 'o';
 };
 
 #endif // GAMEMODEL_HPP

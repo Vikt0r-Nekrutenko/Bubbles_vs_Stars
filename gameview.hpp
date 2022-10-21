@@ -18,13 +18,18 @@ public:
         Vec2d pzero = renderer.Size / 2 - m_board.Size() / 2;
 
         GameModel *gameModel = static_cast<GameModel*>(m_model);
-        Vec2d cursorPos = gameModel->cursor().destinationCell;
+        Vec2d cursorPos = gameModel->cursor().activeCursor->pos;
+
         auto cell = [&](const Vec2d pos) -> const Vec2d {
           return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
         };
 
+        auto drawCell = [&](const Vec2d pos, uint8_t sym) -> void {
+            renderer.drawPixel(pos, sym == 'e' ? ' ' : sym);
+        };
+
         renderer.drawFrame(cell(cursorPos) - Vec2d(1,0), Vec2d(3,1));
-//        renderer.drawPixel(cell({-1,0}), static_cast<GameModel*>(m_model)->player());
+        drawCell(cell(cursorPos), gameModel->cursor().activeCursor->sym);
     }
 
 private:
