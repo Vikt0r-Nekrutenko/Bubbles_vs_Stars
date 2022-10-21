@@ -24,12 +24,20 @@ public:
           return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
         };
 
+        auto cell1 = [&](size_t i) -> const Vec2d {
+          return pzero + m_board.markers().at(i + 1);
+        };
+
         auto drawCell = [&](const Vec2d pos, uint8_t sym) -> void {
             renderer.drawPixel(pos, sym == 'e' ? ' ' : sym);
         };
 
         renderer.drawFrame(cell(cursorPos) - Vec2d(1,0), Vec2d(3,1));
         drawCell(cell(cursorPos), gameModel->cursor().activeCursor->sym);
+
+        for(size_t i = 0; i < size_t(gameModel->Size.x * gameModel->Size.y); ++i) {
+          drawCell(cell1(i), gameModel->board()[i]);
+        }
     }
 
 private:

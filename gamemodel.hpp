@@ -53,6 +53,8 @@ public:
 
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
+    inline const uint8_t* board() const { return m_board; }
+
 
     IView* keyEventsHandler(IView* sender, const int key) final
     {
