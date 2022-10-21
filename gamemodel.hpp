@@ -30,9 +30,10 @@ public:
           case 'd': if(m_cursor.destinationCell.x < Size.x) m_cursor.destinationCell += Vec2d(1,0); break;
           case ' ': break;
         }
+        return nullptr;
     }
 
-    IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final;
+    IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final { return nullptr; }
 
 private:
 
