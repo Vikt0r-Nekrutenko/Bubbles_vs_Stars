@@ -18,7 +18,7 @@ public:
         Vec2d pzero = renderer.Size / 2 - m_board.Size() / 2;
 
         GameModel *gameModel = static_cast<GameModel*>(m_model);
-        Vec2d cursorPos = gameModel->cursor().activeCursor->pos;
+        Vec2d cursorPos = gameModel->cursor().selectorCell.pos;
 
         auto cell = [&](const Vec2d pos) -> const Vec2d {
           return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
@@ -37,10 +37,10 @@ public:
           drawCell(cell1(i), gameModel->board()[i]);
         }
 
-//        renderer.drawFrame(cell(cursorPos) - Vec2d(1,0), Vec2d(3,1));
         renderer.drawPixel(cell(cursorPos)-Vec2d(1,0), '+');
         renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
-        drawCell(cell(cursorPos), gameModel->cursor().activeCursor->sym);
+
+        drawCell(cell(cursorPos), gameModel->cursor().selectorCell.sym);
     }
 
 private:

@@ -15,16 +15,16 @@ struct Selector
 
 struct Cursor
 {
-    Selector selectedCell;
+    Selector selectorCell;
     Selector destinationCell;
-    Selector *activeCursor = &destinationCell;
+    Selector *activeCursor = &selectorCell;
 
     void switchCursor()
     {
-        destinationCell.pos = selectedCell.pos = activeCursor->pos;
-        (activeCursor == &selectedCell)
+        destinationCell.pos = selectorCell.pos = activeCursor->pos;
+        (activeCursor == &selectorCell)
                 ? activeCursor = &destinationCell
-                : activeCursor = &selectedCell;
+                : activeCursor = &selectorCell;
     }
 };
 
@@ -61,14 +61,17 @@ public:
     {
         switch (key)
         {
-          case 'w': if(m_cursor.activeCursor->pos.y > 0) m_cursor.activeCursor->pos -= Vec2d(0,1); break;
-          case 'a': if(m_cursor.activeCursor->pos.x > 0) m_cursor.activeCursor->pos -= Vec2d(1,0); break;
-          case 's': if(m_cursor.activeCursor->pos.y < Size.y-1) m_cursor.activeCursor->pos += Vec2d(0,1); break;
-          case 'd': if(m_cursor.activeCursor->pos.x < Size.x-1) m_cursor.activeCursor->pos += Vec2d(1,0); break;
+          case 'w': if(m_cursor.selectorCell.pos.y > 0) m_cursor.selectorCell.pos -= Vec2d(0,1); break;
+          case 'a': if(m_cursor.selectorCell.pos.x > 0) m_cursor.selectorCell.pos -= Vec2d(1,0); break;
+          case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
+          case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
           case ' ':
-            if(m_board[Size.x * m_cursor.activeCursor->pos.y + m_cursor.activeCursor->pos.x] == m_player) {
-//                m_cursor.switchCursor();
-                m_cursor.activeCursor->sym = m_player;
+            if(m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] == m_player) {
+                m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = m_player;
+            } else if(m_cursor.destinationCell.sym == m_player &&
+                      m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] == 'e') {
+                m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] = m_player;
+                m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = 'e';
             }
             break;
         }
