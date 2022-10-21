@@ -29,15 +29,18 @@ public:
         };
 
         auto drawCell = [&](const Vec2d pos, uint8_t sym) -> void {
-            renderer.drawPixel(pos, sym == 'e' ? ' ' : sym);
+            if(sym != 'e')
+                renderer.drawPixel(pos, sym);
         };
-
-        renderer.drawFrame(cell(cursorPos) - Vec2d(1,0), Vec2d(3,1));
-        drawCell(cell(cursorPos), gameModel->cursor().activeCursor->sym);
 
         for(size_t i = 0; i < size_t(gameModel->Size.x * gameModel->Size.y); ++i) {
           drawCell(cell1(i), gameModel->board()[i]);
         }
+
+//        renderer.drawFrame(cell(cursorPos) - Vec2d(1,0), Vec2d(3,1));
+        renderer.drawPixel(cell(cursorPos)-Vec2d(1,0), '+');
+        renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
+        drawCell(cell(cursorPos), gameModel->cursor().activeCursor->sym);
     }
 
 private:

@@ -21,6 +21,7 @@ struct Cursor
 
     void switchCursor()
     {
+        destinationCell.pos = selectedCell.pos = activeCursor->pos;
         (activeCursor == &selectedCell)
                 ? activeCursor = &destinationCell
                 : activeCursor = &selectedCell;
@@ -48,7 +49,7 @@ public:
         m_board[63] = '*';
 
         m_cursor = Cursor();
-        m_player = 0;
+        m_player = 'o';
     }
 
     inline const Cursor& cursor() const { return m_cursor; }
@@ -64,7 +65,12 @@ public:
           case 'a': if(m_cursor.activeCursor->pos.x > 0) m_cursor.activeCursor->pos -= Vec2d(1,0); break;
           case 's': if(m_cursor.activeCursor->pos.y < Size.y-1) m_cursor.activeCursor->pos += Vec2d(0,1); break;
           case 'd': if(m_cursor.activeCursor->pos.x < Size.x-1) m_cursor.activeCursor->pos += Vec2d(1,0); break;
-          case ' ': m_cursor.switchCursor(); break;
+          case ' ':
+            if(m_board[Size.x * m_cursor.activeCursor->pos.y + m_cursor.activeCursor->pos.x] == m_player) {
+//                m_cursor.switchCursor();
+                m_cursor.activeCursor->sym = m_player;
+            }
+            break;
         }
         return nullptr;
     }
@@ -75,7 +81,7 @@ private:
     uint8_t m_board[64];
 
     Cursor m_cursor;
-    uint8_t m_player = 'o';
+    uint8_t m_player;
 };
 
 #endif // GAMEMODEL_HPP
