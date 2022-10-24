@@ -12,10 +12,10 @@ class GameView : public IView
 {
 public:
     GameView(BaseModel *model);
-    virtual void show(Renderer &renderer)
+    void show(Renderer &renderer) override
     {
         m_board.show(renderer, true);
-        Vec2d pzero = renderer.Size / 2 - m_board.Size() / 2;
+        pzero = renderer.Size / 2 - m_board.Size() / 2;
 
         GameModel *gameModel = static_cast<GameModel*>(m_model);
         Vec2d cursorPos = gameModel->cursor().selectorCell.pos;
@@ -43,6 +43,16 @@ public:
         renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
 
         drawCell(cell(cursorPos), gameModel->cursor().selectorCell.sym);
+    }
+    Vec2d pzero{0,0};
+    IView* mouseEventsHandler(const stf::MouseRecord& mr) override
+    {
+        Vec2d mp(mr.x, mr.y);
+        Vec2d dif = (m_board.Size()-1) / 8;
+        Vec2d pos = (mp - pzero) / dif - Vec2d(1,1);
+
+        static_cast<GameModel*>(m_model)->setCursorPosition(pos);
+        return m_model->mouseEventsHandler(this, mr);
     }
 
 private:

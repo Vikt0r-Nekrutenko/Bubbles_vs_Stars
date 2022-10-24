@@ -47,6 +47,13 @@ public:
         m_player = PLAYER1_CELL;
     }
 
+    void setCursorPosition(const Vec2d& pos)
+    {
+        if(pos.x >= 0 && pos.y >= 0 && pos.x < Size.x && pos.y < Size.y) {
+            m_cursor.selectorCell.pos = pos;
+        }
+    }
+
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
     inline const uint8_t* board() const { return m_board; }
@@ -66,8 +73,8 @@ public:
         else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 1.5f)
         {
             getCell(sc.pos) = m_player;
-            for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
-                for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
+            for(int y = sc.pos.y - 1; y < sc.pos.y + 2; ++y)
+                for(int x = sc.pos.x - 1; x < sc.pos.x + 2; ++x) {
                     if(x < 0 && y < 0 && x >= Size.x && y >= Size.y)
                         break;
                     if(getCell({x,y}) == opponent())
@@ -94,7 +101,10 @@ public:
     }
 
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final {
-        return nullptr;
+        if(mr.type == MouseInputType::leftPressed) {
+            return put(sender);
+        }
+        return sender;
     }
 
 private:
