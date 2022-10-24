@@ -46,7 +46,7 @@ public:
         }
 
         m_board[0] = 'o';
-        m_board[63] = '*';
+        m_board[18] = '*';
 
         m_cursor = Cursor();
         m_player = 'o';
@@ -77,6 +77,14 @@ public:
             else if(sc.sym == m_player && m_board[Size.x * sc.pos.y + sc.pos.x] == 'e' && sc.pos.diff(dc.pos) <= 1.5f)
             {
                 m_board[Size.x * sc.pos.y + sc.pos.x] = m_player;
+                for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
+                    for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
+                        if(x >= 0 && y >= 0 && x < Size.x && y < Size.y) {
+                            if(m_board[Size.x * y + x] != 'e' && m_board[Size.x * y + x] != sc.sym) {
+                                m_board[Size.x * y + x] = m_player;
+                            }
+                        }
+                    }
                 sc.sym = dc.sym = 'e';
                 m_player == 'o' ? m_player = '*' : m_player = 'o';
             }
