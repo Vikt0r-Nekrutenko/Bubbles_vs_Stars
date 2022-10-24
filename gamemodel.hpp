@@ -66,13 +66,21 @@ public:
           case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
           case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
           case ' ':
-            if(m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] == m_player) {
-                m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = m_player;
-            } else if(m_cursor.destinationCell.sym == m_player &&
-                      m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] == 'e') {
-                m_board[Size.x * m_cursor.selectorCell.pos.y + m_cursor.selectorCell.pos.x] = m_player;
-                m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = 'e';
+            Selector &sc = m_cursor.selectorCell;
+            Selector &dc = m_cursor.destinationCell;
+
+            if(m_board[Size.x * sc.pos.y + sc.pos.x] == m_player)
+            {
+                sc.sym = dc.sym = m_player;
+                dc.pos = sc.pos;
             }
+            else if(sc.sym == m_player && m_board[Size.x * sc.pos.y + sc.pos.x] == 'e' && sc.pos.diff(dc.pos) <= 1.5f)
+            {
+                m_board[Size.x * sc.pos.y + sc.pos.x] = m_player;
+                sc.sym = dc.sym = 'e';
+                m_player == 'o' ? m_player = '*' : m_player = 'o';
+            }
+
             break;
         }
         return nullptr;
