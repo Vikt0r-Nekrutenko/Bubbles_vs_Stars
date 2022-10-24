@@ -33,6 +33,8 @@ public:
                 renderer.drawPixel(pos, sym);
         };
 
+        renderer.drawPixel(pzero + m_board.markers().at(0), gameModel->player());
+
         for(size_t i = 0; i < size_t(gameModel->Size.x * gameModel->Size.y); ++i) {
           drawCell(cell1(i), gameModel->board()[i]);
         }
