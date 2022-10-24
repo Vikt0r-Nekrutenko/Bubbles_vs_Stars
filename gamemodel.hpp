@@ -81,11 +81,10 @@ public:
                 getCell(sc.pos) = m_player;
                 for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
                     for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
-                        if(x >= 0 && y >= 0 && x < Size.x && y < Size.y) {
-                            if(getCell({x,y}) == opponent()) {
-                                m_board[Size.x * y + x] = m_player;
-                            }
-                        }
+                        if(x < 0 && y < 0 && x >= Size.x && y >= Size.y)
+                            break;
+                        if(getCell({x,y}) == opponent())
+                            m_board[Size.x * y + x] = m_player;
                     }
                 sc.sym = dc.sym = 'e';
                 m_player == 'o' ? m_player = '*' : m_player = 'o';
