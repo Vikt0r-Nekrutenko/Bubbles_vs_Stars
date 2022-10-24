@@ -19,6 +19,7 @@ public:
 
         GameModel *gameModel = static_cast<GameModel*>(m_model);
         Vec2d cursorPos = gameModel->cursor().selectorCell.pos;
+        Vec2d destPos = gameModel->cursor().destinationCell.pos;
 
         auto cell = [&](const Vec2d pos) -> const Vec2d {
           return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
@@ -41,6 +42,9 @@ public:
 
         renderer.drawPixel(cell(cursorPos)-Vec2d(1,0), '+');
         renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
+
+        renderer.drawPixel(cell(destPos)-Vec2d(1,0), '-');
+        renderer.drawPixel(cell(destPos)+Vec2d(1,0), '-');
 
         drawCell(cell(cursorPos), gameModel->cursor().selectorCell.sym);
     }
