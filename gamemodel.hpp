@@ -53,6 +53,32 @@ public:
     inline uint8_t& getCell(const Vec2d& pos) { return m_board[Size.x * pos.y + pos.x]; }
     inline uint8_t opponent() const { return m_player == PLAYER1_CELL ? PLAYER2_CELL : PLAYER1_CELL; }
 
+    IView* put(IView* sender)
+    {
+        Selector &sc = m_cursor.selectorCell;
+        Selector &dc = m_cursor.destinationCell;
+
+        if(getCell(sc.pos) == m_player)
+        {
+            sc.sym = dc.sym = m_player;
+            dc.pos = sc.pos;
+        }
+        else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 1.5f)
+        {
+            getCell(sc.pos) = m_player;
+            for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
+                for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
+                    if(x < 0 && y < 0 && x >= Size.x && y >= Size.y)
+                        break;
+                    if(getCell({x,y}) == opponent())
+                        m_board[Size.x * y + x] = m_player;
+                }
+            sc.sym = dc.sym = EMPTY_CELL;
+            m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
+        }
+        return sender;
+    }
+
 
     IView* keyEventsHandler(IView* sender, const int key) final
     {
@@ -62,35 +88,14 @@ public:
           case 'a': if(m_cursor.selectorCell.pos.x > 0) m_cursor.selectorCell.pos -= Vec2d(1,0); break;
           case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
           case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
-          case ' ':
-            Selector &sc = m_cursor.selectorCell;
-            Selector &dc = m_cursor.destinationCell;
-
-            if(getCell(sc.pos) == m_player)
-            {
-                sc.sym = dc.sym = m_player;
-                dc.pos = sc.pos;
-            }
-            else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 1.5f)
-            {
-                getCell(sc.pos) = m_player;
-                for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
-                    for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
-                        if(x < 0 && y < 0 && x >= Size.x && y >= Size.y)
-                            break;
-                        if(getCell({x,y}) == opponent())
-                            m_board[Size.x * y + x] = m_player;
-                    }
-                sc.sym = dc.sym = EMPTY_CELL;
-                m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
-            }
-
-            break;
+          case ' ': return put(sender);
         }
         return nullptr;
     }
 
-    IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final { return nullptr; }
+    IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final {
+        return nullptr;
+    }
 
 private:
     uint8_t m_board[64];
