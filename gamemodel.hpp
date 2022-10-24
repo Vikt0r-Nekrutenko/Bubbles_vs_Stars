@@ -55,6 +55,8 @@ public:
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
     inline const uint8_t* board() const { return m_board; }
+    inline uint8_t& getCell(const Vec2d& pos) { return m_board[Size.x * pos.y + pos.x]; }
+    inline uint8_t opponent() const { return m_player == 'o' ? '*' : 'o'; }
 
 
     IView* keyEventsHandler(IView* sender, const int key) final
@@ -69,18 +71,18 @@ public:
             Selector &sc = m_cursor.selectorCell;
             Selector &dc = m_cursor.destinationCell;
 
-            if(m_board[Size.x * sc.pos.y + sc.pos.x] == m_player)
+            if(getCell(sc.pos) == m_player)
             {
                 sc.sym = dc.sym = m_player;
                 dc.pos = sc.pos;
             }
-            else if(sc.sym == m_player && m_board[Size.x * sc.pos.y + sc.pos.x] == 'e' && sc.pos.diff(dc.pos) <= 1.5f)
+            else if(sc.sym == m_player && getCell(sc.pos) == 'e' && sc.pos.diff(dc.pos) <= 1.5f)
             {
-                m_board[Size.x * sc.pos.y + sc.pos.x] = m_player;
+                getCell(sc.pos) = m_player;
                 for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
                     for(int x = sc.pos.x - 1; x < sc.pos.x + 1; ++x) {
                         if(x >= 0 && y >= 0 && x < Size.x && y < Size.y) {
-                            if(m_board[Size.x * y + x] != 'e' && m_board[Size.x * y + x] != sc.sym) {
+                            if(getCell({x,y}) == opponent()) {
                                 m_board[Size.x * y + x] = m_player;
                             }
                         }
