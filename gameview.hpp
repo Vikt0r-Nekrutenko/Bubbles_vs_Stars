@@ -29,7 +29,7 @@ public:
         };
 
         auto drawCell = [&](const Vec2d pos, uint8_t sym) -> void {
-            if(sym != 'e')
+            if(sym != EMPTY_CELL)
                 renderer.drawPixel(pos, sym);
         };
 

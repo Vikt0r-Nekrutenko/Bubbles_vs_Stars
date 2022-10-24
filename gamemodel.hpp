@@ -7,25 +7,20 @@
 using namespace stf;
 using namespace stf::smv;
 
+#define EMPTY_CELL 'e'
+#define PLAYER1_CELL 'o'
+#define PLAYER2_CELL '*'
+
 struct Selector
 {
     Vec2d pos { 0, 0 };
-    uint8_t sym = 'e';
+    uint8_t sym = EMPTY_CELL;
 };
 
 struct Cursor
 {
     Selector selectorCell;
     Selector destinationCell;
-    Selector *activeCursor = &selectorCell;
-
-    void switchCursor()
-    {
-        destinationCell.pos = selectorCell.pos = activeCursor->pos;
-        (activeCursor == &selectorCell)
-                ? activeCursor = &destinationCell
-                : activeCursor = &selectorCell;
-    }
 };
 
 class GameModel : public BaseModel
@@ -42,21 +37,21 @@ public:
     void reset()
     {
         for(uint8_t &c : m_board) {
-            c = 'e';
+            c = EMPTY_CELL;
         }
 
-        m_board[0] = 'o';
-        m_board[18] = '*';
+        m_board[0] = PLAYER1_CELL;
+        m_board[18] = PLAYER2_CELL;
 
         m_cursor = Cursor();
-        m_player = 'o';
+        m_player = PLAYER1_CELL;
     }
 
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
     inline const uint8_t* board() const { return m_board; }
     inline uint8_t& getCell(const Vec2d& pos) { return m_board[Size.x * pos.y + pos.x]; }
-    inline uint8_t opponent() const { return m_player == 'o' ? '*' : 'o'; }
+    inline uint8_t opponent() const { return m_player == PLAYER1_CELL ? PLAYER2_CELL : PLAYER1_CELL; }
 
 
     IView* keyEventsHandler(IView* sender, const int key) final
@@ -76,7 +71,7 @@ public:
                 sc.sym = dc.sym = m_player;
                 dc.pos = sc.pos;
             }
-            else if(sc.sym == m_player && getCell(sc.pos) == 'e' && sc.pos.diff(dc.pos) <= 1.5f)
+            else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 1.5f)
             {
                 getCell(sc.pos) = m_player;
                 for(int y = sc.pos.y - 1; y < sc.pos.y + 1; ++y)
@@ -86,8 +81,8 @@ public:
                         if(getCell({x,y}) == opponent())
                             m_board[Size.x * y + x] = m_player;
                     }
-                sc.sym = dc.sym = 'e';
-                m_player == 'o' ? m_player = '*' : m_player = 'o';
+                sc.sym = dc.sym = EMPTY_CELL;
+                m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
             }
 
             break;
