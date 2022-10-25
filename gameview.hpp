@@ -22,7 +22,10 @@ public:
         Vec2d destPos = gameModel->cursor().destinationCell.pos;
 
         auto cell = [&](const Vec2d pos) -> const Vec2d {
-          return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
+            int n = gameModel->Size.x * pos.y + pos.x + 1;
+            if(n < 0 || n >= (int)m_board.markers().size())
+                return {-1,-1};
+          return pzero + m_board.markers().at(n);
         };
 
         auto cell1 = [&](size_t i) -> const Vec2d {
@@ -36,15 +39,23 @@ public:
 
         renderer.drawPixel(pzero + m_board.markers().at(0), gameModel->player());
 
+        for(int y = destPos.y - 1; y < destPos.y + 2; ++y)
+            for(int x = destPos.x - 1; x < destPos.x + 2; ++x) {
+                if(x >= 0 && y >= 0 && x < gameModel->Size.x && y < gameModel->Size.y)
+                    if(gameModel->cursor().destinationCell.sym != 'e') {
+                        renderer.drawPixel(cell({x,y}), '.');
+                    }
+            }
+
         for(size_t i = 0; i < size_t(gameModel->Size.x * gameModel->Size.y); ++i) {
           drawCell(cell1(i), gameModel->board()[i]);
         }
 
-        renderer.drawPixel(cell(cursorPos)-Vec2d(1,0), '+');
-        renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
-
         renderer.drawPixel(cell(destPos)-Vec2d(1,0), '-');
         renderer.drawPixel(cell(destPos)+Vec2d(1,0), '-');
+
+        renderer.drawPixel(cell(cursorPos)-Vec2d(1,0), '+');
+        renderer.drawPixel(cell(cursorPos)+Vec2d(1,0), '+');
 
         drawCell(cell(cursorPos), gameModel->cursor().selectorCell.sym);
     }
