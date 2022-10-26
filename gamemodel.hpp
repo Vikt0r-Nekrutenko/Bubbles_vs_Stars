@@ -54,6 +54,7 @@ public:
         }
     }
 
+    inline void discardSelect() { m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = EMPTY_CELL; }
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
     inline const uint8_t* board() const { return m_board; }
@@ -70,7 +71,7 @@ public:
             sc.sym = dc.sym = m_player;
             dc.pos = sc.pos;
         }
-        else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 1.5f)
+        else if(sc.sym == m_player && getCell(sc.pos) == EMPTY_CELL && sc.pos.diff(dc.pos) <= 2.9f)
         {
             getCell(sc.pos) = m_player;
             for(int y = sc.pos.y - 1; y < sc.pos.y + 2; ++y)
@@ -95,6 +96,7 @@ public:
           case 'a': if(m_cursor.selectorCell.pos.x > 0) m_cursor.selectorCell.pos -= Vec2d(1,0); break;
           case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
           case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
+          case 'x': discardSelect(); break;
           case ' ': return put(sender);
         }
         return nullptr;
