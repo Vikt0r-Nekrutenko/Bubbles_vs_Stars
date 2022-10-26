@@ -43,7 +43,7 @@ public:
 
         int j = 2;
         for(auto &i : gameModel->possibleMoves) {
-            renderer.draw({0,j++}, "%d:%d->%d:%d", i.first.x, i.first.y, i.second.x, i.second.y);
+            renderer.draw({0,j++}, "%c:%d->%c:%d", 'a'+i.first.x, i.first.y, 'a'+i.second.x, i.second.y);
         }
 
         for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
