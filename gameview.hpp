@@ -12,6 +12,13 @@ class GameView : public IView
 {
 public:
     GameView(BaseModel *model);
+
+    void drawPlayersScore(Renderer &renderer, GameModel *gameModel) const
+    {
+        renderer.draw(pzero - Vec2d(-2, +2), "Player '%c': %d", PLAYER1_CELL, gameModel->plOneScore());
+        renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
+    }
+
     void show(Renderer &renderer) override
     {
         m_board.show(renderer, true);
@@ -35,8 +42,6 @@ public:
         };
 
         renderer.drawPixel(pzero + m_board.markers().at(0), gameModel->player());
-        renderer.draw(pzero - Vec2d(-2, +2), "Player '%c': %d", PLAYER1_CELL, gameModel->plOneScore());
-        renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
 
         int j = 2;
         for(auto &i : gameModel->possibleMoves) {
