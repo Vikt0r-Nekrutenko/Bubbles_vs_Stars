@@ -13,7 +13,7 @@ void EndView::show(Renderer& renderer)
     renderer.drawText(p, "DRAW!");
   } else {
     m_end.show(renderer, true);
-    renderer.drawPixel(renderer.Size / 2 - m_end.Size() / 2 + m_end.markers().at(0), static_cast<GameModel*>(m_model)->player());
+    renderer.drawPixel(renderer.Size / 2 - m_end.Size() / 2 + m_end.markers().at(0), static_cast<GameModel*>(m_model)->opponent());
   }
 }
 

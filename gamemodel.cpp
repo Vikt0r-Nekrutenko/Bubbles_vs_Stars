@@ -1,4 +1,5 @@
 #include "gamemodel.hpp"
+#include "endview.hpp"
 
 GameModel::GameModel()
 {
@@ -84,7 +85,7 @@ IView *GameModel::put(IView *sender)
         m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
         calculateScore();
         if(gameIsOver())
-            return nullptr;
+            return new EndView(this);
     }
 
     return sender;
