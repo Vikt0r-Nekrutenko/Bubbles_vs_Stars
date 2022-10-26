@@ -22,10 +22,7 @@ public:
         Vec2d destPos = gameModel->cursor().destinationCell.pos;
 
         auto cell = [&](const Vec2d pos) -> const Vec2d {
-            int n = gameModel->Size.x * pos.y + pos.x + 1;
-            if(n < 0 || n >= (int)m_board.markers().size())
-                return {-1,-1};
-          return pzero + m_board.markers().at(n);
+          return pzero + m_board.markers().at(gameModel->Size.x * pos.y + pos.x + 1);
         };
 
         auto cell1 = [&](size_t i) -> const Vec2d {
