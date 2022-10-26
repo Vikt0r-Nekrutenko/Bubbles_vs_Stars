@@ -1,6 +1,6 @@
 #include "endview.hpp"
 #include "gamemodel.hpp"
-#include "menuview.hpp"
+//#include "menuview.hpp"
 
 EndView::EndView(GameModel* model)
   : IView(model) {}
@@ -13,12 +13,12 @@ void EndView::show(Renderer& renderer)
     renderer.drawText(p, "DRAW!");
   } else {
     m_end.show(renderer, true);
-    renderer.drawPixel(renderer.Size / 2 - m_end.Size() / 2 + m_end.markers().at(0), static_cast<GameModel*>(m_model)->cursor().sym);
+    renderer.drawPixel(renderer.Size / 2 - m_end.Size() / 2 + m_end.markers().at(0), static_cast<GameModel*>(m_model)->player());
   }
 }
 
-IView* EndView::keyEventsHandler(const int key)
+IView* EndView::keyEventsHandler(const int)
 {
   static_cast<GameModel*>(m_model)->reset();
-  return new MenuView(static_cast<GameModel*>(m_model));
+  return this;//new MenuView(static_cast<GameModel*>(m_model));
 }
