@@ -19,6 +19,14 @@ public:
         renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
     }
 
+    void drawPossibleMovesList(Renderer &renderer, GameModel *gameModel) const
+    {
+        int j = 2;
+        for(auto &i : gameModel->possibleMoves) {
+            renderer.draw({0,j++}, "%c:%d->%c:%d", 'a'+i.first.x, i.first.y, 'a'+i.second.x, i.second.y);
+        }
+    }
+
     void show(Renderer &renderer) override
     {
         m_board.show(renderer, true);
@@ -43,10 +51,8 @@ public:
 
         renderer.drawPixel(pzero + m_board.markers().at(0), gameModel->player());
 
-        int j = 2;
-        for(auto &i : gameModel->possibleMoves) {
-            renderer.draw({0,j++}, "%c:%d->%c:%d", 'a'+i.first.x, i.first.y, 'a'+i.second.x, i.second.y);
-        }
+        drawPlayersScore(renderer, gameModel);
+        drawPossibleMovesList(renderer, gameModel);
 
         for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
             for(int x = destPos.x - 2; x < destPos.x + 3; ++x) {
