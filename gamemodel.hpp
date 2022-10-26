@@ -54,12 +54,28 @@ public:
         }
     }
 
+    void calculateScore()
+    {
+        for(auto i : m_board) {
+            i == PLAYER1_CELL
+                    ? ++m_plOneScore
+                    : ++m_plTwoScore;
+        }
+    }
+
     inline void discardSelect() { m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = EMPTY_CELL; }
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
     inline const uint8_t* board() const { return m_board; }
     inline uint8_t& getCell(const Vec2d& pos) { return m_board[Size.x * pos.y + pos.x]; }
     inline uint8_t opponent() const { return m_player == PLAYER1_CELL ? PLAYER2_CELL : PLAYER1_CELL; }
+    inline uint8_t plOneScore() const { return m_plOneScore; }
+    inline uint8_t plTwoScore() const { return m_plTwoScore; }
+
+    bool gameIsOver() const
+    {
+
+    }
 
     IView* put(IView* sender)
     {
@@ -84,6 +100,9 @@ public:
             sc.sym = dc.sym = EMPTY_CELL;
             m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
         }
+
+        calculateScore();
+
         return sender;
     }
 
@@ -114,6 +133,8 @@ private:
 
     Cursor m_cursor;
     uint8_t m_player;
+    uint8_t m_plOneScore = 1;
+    uint8_t m_plTwoScore = 1;
 };
 
 #endif // GAMEMODEL_HPP

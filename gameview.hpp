@@ -38,6 +38,8 @@ public:
         };
 
         renderer.drawPixel(pzero + m_board.markers().at(0), gameModel->player());
+        renderer.draw(pzero - Vec2d(-2, +2), "Player '%c': %d", PLAYER1_CELL, gameModel->plOneScore());
+        renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
 
         for(int y = destPos.y - 1; y < destPos.y + 2; ++y)
             for(int x = destPos.x - 1; x < destPos.x + 2; ++x) {
