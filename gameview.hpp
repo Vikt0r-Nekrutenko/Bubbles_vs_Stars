@@ -41,8 +41,8 @@ public:
         renderer.draw(pzero - Vec2d(-2, +2), "Player '%c': %d", PLAYER1_CELL, gameModel->plOneScore());
         renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
 
-        for(int y = destPos.y - 1; y < destPos.y + 2; ++y)
-            for(int x = destPos.x - 1; x < destPos.x + 2; ++x) {
+        for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
+            for(int x = destPos.x - 2; x < destPos.x + 3; ++x) {
                 if(x >= 0 && y >= 0 && x < gameModel->Size.x && y < gameModel->Size.y)
                     if(gameModel->cursor().destinationCell.sym != 'e') {
                         renderer.drawPixel(cell({x,y}), '.');

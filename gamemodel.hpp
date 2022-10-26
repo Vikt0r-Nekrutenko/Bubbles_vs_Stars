@@ -56,10 +56,13 @@ public:
 
     void calculateScore()
     {
+        m_plOneScore = m_plTwoScore = 0;
+
         for(auto i : m_board) {
-            i == PLAYER1_CELL
-                    ? ++m_plOneScore
-                    : ++m_plTwoScore;
+            if(i == PLAYER1_CELL)
+                ++m_plOneScore;
+            else if(i == PLAYER2_CELL)
+                ++m_plTwoScore;
         }
     }
 
@@ -99,9 +102,8 @@ public:
                 }
             sc.sym = dc.sym = EMPTY_CELL;
             m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
+            calculateScore();
         }
-
-        calculateScore();
 
         return sender;
     }
