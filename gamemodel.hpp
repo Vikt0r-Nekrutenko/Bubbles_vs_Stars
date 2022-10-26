@@ -46,16 +46,12 @@ public:
     inline bool isDraw() const { return m_plOneScore == m_plTwoScore; }
     inline void discardSelect() { m_cursor.selectorCell.sym = m_cursor.destinationCell.sym = EMPTY_CELL; }
 
-    std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
-
     bool gameIsOver();
-
     IView* put(IView* sender);
-
-
     IView* keyEventsHandler(IView* sender, const int key) final;
-
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final;
+
+    std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
 
 private:
 
