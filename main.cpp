@@ -19,7 +19,7 @@ public:
 
     void keyEvents(const int key) final
     {
-        gameView.keyEventsHandler(key);
+        if(gameView.keyEventsHandler(key) == nullptr) exit(0);
     }
 
     void mouseEvents(const MouseRecord &mr) final

@@ -3,6 +3,7 @@
 
 #include "imodel.hpp"
 #include "vec2d.hpp"
+#include <vector>
 
 using namespace stf;
 using namespace stf::smv;
@@ -45,6 +46,8 @@ public:
 
         m_cursor = Cursor();
         m_player = PLAYER1_CELL;
+
+        gameIsOver();
     }
 
     void setCursorPosition(const Vec2d& pos)
@@ -75,9 +78,35 @@ public:
     inline uint8_t plOneScore() const { return m_plOneScore; }
     inline uint8_t plTwoScore() const { return m_plTwoScore; }
 
-    bool gameIsOver() const
+    inline bool isDraw() const
     {
+        return m_plOneScore == m_plTwoScore;
+    }
 
+    std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
+
+    bool gameIsOver()
+    {
+//        for(auto i : m_board)
+//            if(i == 'e')
+//                return false;
+        possibleMoves.clear();
+
+        for(int y1 = 0; y1 < Size.y; ++y1) {
+            for(int x1 = 0; x1 < Size.x; ++x1) {
+                if(m_board[Size.x * y1 + x1] != m_player || m_board[Size.x * y1 + x1] == 'e')
+                    continue;
+                for(int y2 = y1-2; y2 < y1 + 3; ++y2) {
+                    for(int x2 = x1-2; x2 < x1 + 3; ++x2) {
+                        if(x2 < 0 || y2 < 0 || x2 >= Size.x || y2 >= Size.y)
+                            continue;
+                        if(m_board[Size.x * y2 + x2] == 'e')
+                            possibleMoves.push_back({{x1,y1},{x2,y2}});
+                    }
+                }
+            }
+        }
+        return possibleMoves.empty();
     }
 
     IView* put(IView* sender)
@@ -103,6 +132,8 @@ public:
             sc.sym = dc.sym = EMPTY_CELL;
             m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
             calculateScore();
+            if(gameIsOver())
+                return nullptr;
         }
 
         return sender;
@@ -120,7 +151,7 @@ public:
           case 'x': discardSelect(); break;
           case ' ': return put(sender);
         }
-        return nullptr;
+        return sender;
     }
 
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final {

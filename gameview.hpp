@@ -41,6 +41,11 @@ public:
         renderer.draw(pzero - Vec2d(-2, +2), "Player '%c': %d", PLAYER1_CELL, gameModel->plOneScore());
         renderer.draw(pzero + Vec2d(+21, -2), "Player '%c': %d", PLAYER2_CELL, gameModel->plTwoScore());
 
+        int j = 2;
+        for(auto &i : gameModel->possibleMoves) {
+            renderer.draw({0,j++}, "%d:%d->%d:%d", i.first.x, i.first.y, i.second.x, i.second.y);
+        }
+
         for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
             for(int x = destPos.x - 2; x < destPos.x + 3; ++x) {
                 if(x >= 0 && y >= 0 && x < gameModel->Size.x && y < gameModel->Size.y)
