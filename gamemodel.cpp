@@ -12,8 +12,8 @@ void GameModel::reset()
         c = EMPTY_CELL;
     }
 
-    m_board[0] = PLAYER1_CELL;
-    m_board[18] = PLAYER2_CELL;
+    m_board[9] = PLAYER1_CELL;
+    m_board[54] = PLAYER2_CELL;
 
     m_cursor = Cursor();
     m_player = PLAYER1_CELL;
