@@ -4,6 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        closeview.cpp \
+        endview.cpp \
         gamemodel.cpp \
         gameview.cpp \
         main.cpp
@@ -19,5 +21,7 @@ DEPENDPATH += $$PWD/../stf \
               $$PWD/../stf/sdb \
 
 HEADERS += \
+    closeview.hpp \
+    endview.hpp \
     gamemodel.hpp \
     gameview.hpp
