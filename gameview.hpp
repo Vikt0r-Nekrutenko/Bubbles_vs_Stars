@@ -14,11 +14,8 @@ public:
     GameView(BaseModel *model);
 
     void drawPlayersScore(Renderer &renderer, GameModel *gameModel) const;
-
     void drawPossibleMovesList(Renderer &renderer, GameModel *gameModel) const;
-
     void drawPossibleNextMove(Renderer &renderer, GameModel *gameModel) const;
-
     void show(Renderer &renderer) override;
 
     IView* mouseEventsHandler(const stf::MouseRecord& mr) override;
