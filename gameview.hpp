@@ -27,6 +27,19 @@ public:
         }
     }
 
+    void drawPossibleNextMove(Renderer &renderer, GameModel *gameModel) const
+    {
+        Vec2d destPos = gameModel->cursor().destinationCell.pos;
+
+        for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
+            for(int x = destPos.x - 2; x < destPos.x + 3; ++x) {
+                if(x >= 0 && y >= 0 && x < gameModel->Size.x && y < gameModel->Size.y)
+                    if(gameModel->cursor().destinationCell.sym != 'e') {
+                        renderer.drawPixel(cell({x,y}), '.');
+                    }
+            }
+    }
+
     void show(Renderer &renderer) override
     {
         m_board.show(renderer, true);
@@ -53,19 +66,14 @@ public:
 
         drawPlayersScore(renderer, gameModel);
         drawPossibleMovesList(renderer, gameModel);
+        drawPossibleNextMove(renderer, gameModel);
 
-        for(int y = destPos.y - 2; y < destPos.y + 3; ++y)
-            for(int x = destPos.x - 2; x < destPos.x + 3; ++x) {
-                if(x >= 0 && y >= 0 && x < gameModel->Size.x && y < gameModel->Size.y)
-                    if(gameModel->cursor().destinationCell.sym != 'e') {
-                        renderer.drawPixel(cell({x,y}), '.');
-                    }
-            }
-
+        // draw board
         for(size_t i = 0; i < size_t(gameModel->Size.x * gameModel->Size.y); ++i) {
           drawCell(cell1(i), gameModel->board()[i]);
         }
 
+        // draw cursors
         renderer.drawPixel(cell(destPos)-Vec2d(1,0), '-');
         renderer.drawPixel(cell(destPos)+Vec2d(1,0), '-');
 
