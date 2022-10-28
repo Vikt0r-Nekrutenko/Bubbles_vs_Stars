@@ -2,7 +2,7 @@
 #include "gamemodel.hpp"
 
 GameSaveModel::GameSaveModel(GameModel *model)
-    : StackModel("bvss.sdb"), m_model(model) {}
+    : StackModel("bvss_saves.sdb"), m_model(model) {}
 
 void GameSaveModel::save()
 {

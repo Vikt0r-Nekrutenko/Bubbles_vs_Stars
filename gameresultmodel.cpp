@@ -1,5 +1,5 @@
 #include "gameresultmodel.hpp"
 
 GameResultInfoModel::GameResultInfoModel()
-    : Model("bvss.sdb")
+    : Model("bvss_story.sdb")
 { }

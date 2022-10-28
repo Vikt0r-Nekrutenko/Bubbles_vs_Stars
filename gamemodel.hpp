@@ -1,6 +1,7 @@
 #ifndef GAMEMODEL_HPP
 #define GAMEMODEL_HPP
 
+#include "gameresultmodel.hpp"
 #include "gamesavemodel.hpp"
 #include "imodel.hpp"
 #include "vec2d.hpp"
@@ -55,6 +56,7 @@ public:
     std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
 
     GameSaveModel saves = GameSaveModel(this);
+    GameResultInfoModel story = GameResultInfoModel();
 
 private:
 

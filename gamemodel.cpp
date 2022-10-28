@@ -5,6 +5,7 @@
 GameModel::GameModel()
 {
     reset();
+    story.load(story.header().size - 1);
 }
 
 void GameModel::reset()
