@@ -26,7 +26,7 @@ struct Cursor
 
 class GameModel : public BaseModel
 {
-
+    friend class GameSaveModel;
 public:
     const Vec2d Size { 8, 8 };
 
