@@ -42,6 +42,16 @@ void GameModel::calculateScore()
     }
 }
 
+void GameModel::gameOverHandler(const Vec2d& wins, int winner)
+{
+    story.gameTime = Time(nullptr);
+    story.starWins = story.starWins() + wins.x;
+    story.bubleWins = story.bubleWins() + wins.y;
+    story.starScore = m_plTwoScore;
+    story.bubleScore = m_plOneScore;
+    story.winner = winner;
+}
+
 bool GameModel::gameIsOver()
 {
     possibleMoves.clear();

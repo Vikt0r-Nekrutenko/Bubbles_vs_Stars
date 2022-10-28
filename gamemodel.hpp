@@ -37,6 +37,7 @@ public:
     void reset();
     void setCursorPosition(const Vec2d& pos);
     void calculateScore();
+    void gameOverHandler(const Vec2d &wins, int winner);
 
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
