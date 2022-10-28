@@ -14,7 +14,7 @@ void GameModel::reset()
         c = EMPTY_CELL;
     }
 
-    m_board[46] = PLAYER1_CELL;
+    m_board[9] = PLAYER1_CELL;
     m_board[54] = PLAYER2_CELL;
 
     m_cursor = Cursor();
@@ -121,6 +121,8 @@ IView *GameModel::keyEventsHandler(IView *sender, const int key)
 IView *GameModel::mouseEventsHandler(IView *sender, const MouseRecord &mr) {
     if(mr.type == MouseInputType::leftPressed) {
         return put(sender);
+    } else if (mr.type == MouseInputType::rightPressed) {
+        discardSelect();
     }
     return sender;
 }
