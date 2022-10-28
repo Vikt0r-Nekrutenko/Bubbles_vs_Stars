@@ -12,7 +12,8 @@ SOURCES += \
         gameview.cpp \
         main.cpp \
     menuview.cpp \
-    pausemenuview.cpp
+    pausemenuview.cpp \
+    storyview.cpp
 
 LIBS += -L$$PWD/../stf/release/ -lstf
 
@@ -32,4 +33,5 @@ HEADERS += \
     gamesavemodel.hpp \
     gameview.hpp \
     menuview.hpp \
-    pausemenuview.hpp
+    pausemenuview.hpp \
+    storyview.hpp
