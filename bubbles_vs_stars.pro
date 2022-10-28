@@ -8,7 +8,8 @@ SOURCES += \
         endview.cpp \
         gamemodel.cpp \
         gameview.cpp \
-        main.cpp
+        main.cpp \
+        playerselectview.cpp
 
 LIBS += -L$$PWD/../stf/release/ -lstf
 
@@ -24,4 +25,5 @@ HEADERS += \
     closeview.hpp \
     endview.hpp \
     gamemodel.hpp \
-    gameview.hpp
+    gameview.hpp \
+    playerselectview.hpp
