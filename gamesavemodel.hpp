@@ -13,6 +13,9 @@ class GameSaveModel : public StackModel
 public:
     GameSaveModel(GameModel *model);
 
+    void load();
+    void save();
+
 private:
 
     IntVecField m_board = IntVecField(this, 64);
