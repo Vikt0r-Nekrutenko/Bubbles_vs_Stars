@@ -21,8 +21,8 @@ void StoryView::show(Renderer& renderer)
         renderer.draw(zerop+Vec2d(0, k++ * 2), "%s Player has won: \'%c\'. Bubbles: %d, Stars: %d",
                       info->gameTime().asString().c_str(),
                       info->winner(),
-                      info->bubleScore,
-                      info->starScore);
+                      info->bubleScore(),
+                      info->starScore());
       else
         renderer.draw(zerop+Vec2d(0, k++ * 2), "%s The game was played to a draw. Score: %d", info->gameTime().asString().c_str(), info->bubleScore);
     }

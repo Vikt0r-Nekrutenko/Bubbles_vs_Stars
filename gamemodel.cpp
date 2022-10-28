@@ -5,7 +5,7 @@
 GameModel::GameModel()
 {
     reset();
-    story.load(story.header().size - 1);
+    try { story.load(story.header().size - 1); } catch(...) { }
 }
 
 void GameModel::reset()
@@ -14,7 +14,7 @@ void GameModel::reset()
         c = EMPTY_CELL;
     }
 
-    m_board[9] = PLAYER1_CELL;
+    m_board[46] = PLAYER1_CELL;
     m_board[54] = PLAYER2_CELL;
 
     m_cursor = Cursor();
