@@ -1,5 +1,6 @@
 #include "gamemodel.hpp"
 #include "endview.hpp"
+#include "pausemenuview.hpp"
 
 GameModel::GameModel()
 {
@@ -99,6 +100,7 @@ IView *GameModel::keyEventsHandler(IView *sender, const int key)
     case 'a': if(m_cursor.selectorCell.pos.x > 0) m_cursor.selectorCell.pos -= Vec2d(1,0); break;
     case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
     case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
+    case 'q': return new PauseMenuView(this);
     case 'x': discardSelect(); break;
     case ' ': return put(sender);
     }
