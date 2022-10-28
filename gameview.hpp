@@ -11,7 +11,7 @@ using namespace stf::smv;
 class GameView : public IView
 {
 public:
-    GameView(BaseModel *model);
+    GameView(BaseModel *model, bool resetTheModel = false);
 
     void drawPlayersScore(Renderer &renderer, GameModel *gameModel) const;
     void drawPossibleMovesList(Renderer &renderer, GameModel *gameModel) const;
