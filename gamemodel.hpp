@@ -1,6 +1,7 @@
 #ifndef GAMEMODEL_HPP
 #define GAMEMODEL_HPP
 
+#include "gamesavemodel.hpp"
 #include "imodel.hpp"
 #include "vec2d.hpp"
 #include <vector>
@@ -52,6 +53,8 @@ public:
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final;
 
     std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
+
+    GameSaveModel saves = GameSaveModel(this);
 
 private:
 

@@ -4,6 +4,7 @@
 //#include "pausemenuview.hpp"
 //#include "storyview.hpp"
 #include "closeview.hpp"
+#include "pausemenuview.hpp"
 
 MenuView::MenuView(GameModel* model)
   : IView(model), m_smenu(Sprite("sprs/menu.spr")) {
@@ -41,11 +42,11 @@ IView* MenuView::menuSelectConfirm()
   switch(m_cursor)
   {
     case 0: return new GameView(static_cast<GameModel*>(m_model));
-//    case 1:
-//      try {
-//        static_cast<GameModel*>(m_model)->saves.load();
-//        return new PauseMenuView(static_cast<GameModel*>(m_model));
-//      } catch(...) { return this; }
+    case 1:
+      try {
+        static_cast<GameModel*>(m_model)->saves.load();
+        return new PauseMenuView(static_cast<GameModel*>(m_model));
+      } catch(...) { return this; }
 //    case 2: return new StoryView(static_cast<GameModel*>(m_model), this);
     case 3: return new CloseView(static_cast<GameModel*>(m_model));
   }
