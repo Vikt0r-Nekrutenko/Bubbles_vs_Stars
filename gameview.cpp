@@ -66,8 +66,10 @@ void GameView::show(Renderer &renderer)
     }
 
     // draw cursors
-    renderer.drawPixel(cell(m_board, gameModel, destPos)-Vec2d(1,0), '-');
-    renderer.drawPixel(cell(m_board, gameModel, destPos)+Vec2d(1,0), '-');
+    if(gameModel->cursor().destinationCell.sym != EMPTY_CELL) {
+        renderer.drawPixel(cell(m_board, gameModel, destPos)-Vec2d(1,0), '-');
+        renderer.drawPixel(cell(m_board, gameModel, destPos)+Vec2d(1,0), '-');
+    }
 
     renderer.drawPixel(cell(m_board, gameModel, cursorPos)-Vec2d(1,0), '+');
     renderer.drawPixel(cell(m_board, gameModel, cursorPos)+Vec2d(1,0), '+');
