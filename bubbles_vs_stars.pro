@@ -7,6 +7,7 @@ SOURCES += \
         closeview.cpp \
         endview.cpp \
         gamemodel.cpp \
+    gamesavemodel.cpp \
         gameview.cpp \
         main.cpp \
     menuview.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     closeview.hpp \
     endview.hpp \
     gamemodel.hpp \
+    gamesavemodel.hpp \
     gameview.hpp \
     menuview.hpp \
     pausemenuview.hpp
