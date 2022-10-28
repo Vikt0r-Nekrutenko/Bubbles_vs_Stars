@@ -7,6 +7,7 @@ class PauseMenuView : public MenuView
 {
   public:
   PauseMenuView(GameModel* model);
+  ~PauseMenuView() override = default;
   IView* menuSelectConfirm() final;
 };
 

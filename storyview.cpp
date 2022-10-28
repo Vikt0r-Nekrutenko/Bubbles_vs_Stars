@@ -42,7 +42,7 @@ void StoryView::show(Renderer& renderer)
   }
 }
 
-IView* StoryView::keyEventsHandler(const int key)
+IView* StoryView::keyEventsHandler(const int)
 {
   return m_sender;
 }

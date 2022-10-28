@@ -33,6 +33,7 @@ public:
     const Vec2d Size { 8, 8 };
 
     GameModel();
+    ~GameModel() override = default;
 
     void reset();
     void setCursorPosition(const Vec2d& pos);

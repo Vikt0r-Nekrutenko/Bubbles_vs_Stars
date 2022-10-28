@@ -14,6 +14,7 @@ class EndView : public IView
   public:
 
   EndView(GameModel* model);
+  ~EndView() override = default;
   void show(Renderer& renderer) final;
   IView* keyEventsHandler(const int key) final;
   IView* update(const float) override { return this; }

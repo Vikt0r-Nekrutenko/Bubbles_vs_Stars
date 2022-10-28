@@ -14,6 +14,7 @@ class StoryView : public IView
   public:
 
   StoryView(GameModel* model, IView* sender);
+  ~StoryView() override = default;
   void show(Renderer& renderer) final;
   IView* keyEventsHandler(const int key) override;
   IView* update(const float) override { return this; }

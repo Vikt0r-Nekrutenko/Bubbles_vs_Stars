@@ -14,6 +14,7 @@ class CloseView : public IView
   public:
 
   CloseView(GameModel* model);
+  ~CloseView() override = default;
   void show(Renderer&) final { };
   bool isContinue() const final;
   IView* update(const float) override { return this; }
