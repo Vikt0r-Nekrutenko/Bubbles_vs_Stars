@@ -1,9 +1,12 @@
 #include "endview.hpp"
 #include "gamemodel.hpp"
-//#include "menuview.hpp"
+#include "menuview.hpp"
 
 EndView::EndView(GameModel* model)
-  : IView(model) {}
+  : IView(model)
+{
+    model->story.save();
+}
 
 void EndView::show(Renderer& renderer)
 {
@@ -20,5 +23,5 @@ void EndView::show(Renderer& renderer)
 IView* EndView::keyEventsHandler(const int)
 {
   static_cast<GameModel*>(m_model)->reset();
-  return this;//new MenuView(static_cast<GameModel*>(m_model));
+  return new MenuView(static_cast<GameModel*>(m_model));
 }
