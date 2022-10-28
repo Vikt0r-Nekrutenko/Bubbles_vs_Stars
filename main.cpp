@@ -16,7 +16,7 @@ public:
     bool onUpdate(const float) final
     {
         currentView->show(renderer);
-        return true;
+        return currentView->isContinue();
     }
 
     void keyEvents(const int key) final
