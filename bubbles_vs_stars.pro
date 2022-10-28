@@ -9,6 +9,7 @@ SOURCES += \
         gamemodel.cpp \
         gameview.cpp \
         main.cpp \
+    menuview.cpp
 
 LIBS += -L$$PWD/../stf/release/ -lstf
 
@@ -25,3 +26,4 @@ HEADERS += \
     endview.hpp \
     gamemodel.hpp \
     gameview.hpp \
+    menuview.hpp
