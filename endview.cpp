@@ -5,6 +5,9 @@
 EndView::EndView(GameModel* model)
   : IView(model)
 {
+    model->player() == PLAYER1_CELL
+            ? model->gameOverHandler({1,0}, model->opponent())
+            : model->gameOverHandler({0,1}, model->opponent());
     model->story.save();
 }
 
