@@ -1,7 +1,6 @@
 #include "menuview.hpp"
 #include "gameview.hpp"
 #include "gamemodel.hpp"
-//#include "pausemenuview.hpp"
 //#include "storyview.hpp"
 #include "closeview.hpp"
 #include "pausemenuview.hpp"

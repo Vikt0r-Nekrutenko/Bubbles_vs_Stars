@@ -11,6 +11,8 @@ void GameSaveModel::save()
     m_plOneScore = m_model->plOneScore();
     m_plTwoScore = m_model->plTwoScore();
     m_player = m_model->player();
+
+    push<GameSaveModel>();
 }
 
 void GameSaveModel::load()
