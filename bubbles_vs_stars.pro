@@ -34,4 +34,9 @@ HEADERS += \
     gameview.hpp \
     menuview.hpp \
     pausemenuview.hpp \
-    storyview.hpp
+    storyview.hpp \
+    sprs/sboard.spr \
+    sprs/menu.spr \
+    sprs/pause_menu.spr \
+    sprs/end.spr \
+    sprs/stats.spr \
