@@ -1,6 +1,8 @@
 #ifndef GAMEMODEL_HPP
 #define GAMEMODEL_HPP
 
+#include "gameresultmodel.hpp"
+#include "gamesavemodel.hpp"
 #include "imodel.hpp"
 #include "vec2d.hpp"
 #include <vector>
@@ -26,15 +28,17 @@ struct Cursor
 
 class GameModel : public BaseModel
 {
-
+    friend class GameSaveModel;
 public:
     const Vec2d Size { 8, 8 };
 
     GameModel();
+    ~GameModel() override = default;
 
     void reset();
     void setCursorPosition(const Vec2d& pos);
     void calculateScore();
+    void gameOverHandler(const Vec2d &wins, int winner);
 
     inline const Cursor& cursor() const { return m_cursor; }
     inline const uint8_t& player() const { return m_player; }
@@ -52,6 +56,9 @@ public:
     IView* mouseEventsHandler(IView* sender, const MouseRecord& mr) final;
 
     std::vector<std::pair<Vec2d,Vec2d>> possibleMoves;
+
+    GameSaveModel saves = GameSaveModel(this);
+    GameResultInfoModel story = GameResultInfoModel();
 
 private:
 

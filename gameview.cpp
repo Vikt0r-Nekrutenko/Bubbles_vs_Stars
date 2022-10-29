@@ -15,8 +15,13 @@ auto drawCell = [](Renderer &renderer, const Vec2d pos, uint8_t sym) -> void {
         renderer.drawPixel(pos, sym);
 };
 
-GameView::GameView(BaseModel *model)
-    : IView(model) {}
+GameView::GameView(BaseModel *model, bool resetTheModel)
+    : IView(model)
+{
+    if(resetTheModel) {
+        static_cast<GameModel*>(m_model)->reset();
+    }
+}
 
 void GameView::drawPlayersScore(Renderer &renderer, GameModel *gameModel) const
 {
@@ -66,8 +71,10 @@ void GameView::show(Renderer &renderer)
     }
 
     // draw cursors
-    renderer.drawPixel(cell(m_board, gameModel, destPos)-Vec2d(1,0), '-');
-    renderer.drawPixel(cell(m_board, gameModel, destPos)+Vec2d(1,0), '-');
+    if(gameModel->cursor().destinationCell.sym != EMPTY_CELL) {
+        renderer.drawPixel(cell(m_board, gameModel, destPos)-Vec2d(1,0), '-');
+        renderer.drawPixel(cell(m_board, gameModel, destPos)+Vec2d(1,0), '-');
+    }
 
     renderer.drawPixel(cell(m_board, gameModel, cursorPos)-Vec2d(1,0), '+');
     renderer.drawPixel(cell(m_board, gameModel, cursorPos)+Vec2d(1,0), '+');

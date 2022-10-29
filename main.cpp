@@ -1,6 +1,7 @@
 #include <iostream>
 #include "window.hpp"
-#include "gameview.hpp"
+#include "menuview.hpp"
+#include "gamemodel.hpp"
 
 using namespace std;
 using namespace stf;
@@ -8,23 +9,24 @@ using namespace stf;
 class Game : public Window
 {
     GameModel gameModel = GameModel();
-    GameView gameView = GameView(&gameModel);
+    MenuView menuView = MenuView(&gameModel);
+    IView *currentView = &menuView;
 public:
 
-    bool onUpdate(const float dt) final
+    bool onUpdate(const float) final
     {
-        gameView.show(renderer);
-        return true;
+        currentView->show(renderer);
+        return currentView->isContinue();
     }
 
     void keyEvents(const int key) final
     {
-        if(gameView.keyEventsHandler(key) == nullptr) exit(0);
+        currentView = currentView->keyEventsHandler(key);
     }
 
     void mouseEvents(const MouseRecord &mr) final
     {
-        gameView.mouseEventsHandler(mr);
+        currentView = currentView->mouseEventsHandler(mr);
     }
 };
 

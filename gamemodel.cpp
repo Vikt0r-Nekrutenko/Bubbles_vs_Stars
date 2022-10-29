@@ -1,8 +1,11 @@
 #include "gamemodel.hpp"
+#include "endview.hpp"
+#include "pausemenuview.hpp"
 
 GameModel::GameModel()
 {
     reset();
+    try { story.load(story.header().size - 1); } catch(...) { }
 }
 
 void GameModel::reset()
@@ -11,8 +14,8 @@ void GameModel::reset()
         c = EMPTY_CELL;
     }
 
-    m_board[0] = PLAYER1_CELL;
-    m_board[18] = PLAYER2_CELL;
+    m_board[9] = PLAYER1_CELL;
+    m_board[54] = PLAYER2_CELL;
 
     m_cursor = Cursor();
     m_player = PLAYER1_CELL;
@@ -37,6 +40,16 @@ void GameModel::calculateScore()
         else if(i == PLAYER2_CELL)
             ++m_plTwoScore;
     }
+}
+
+void GameModel::gameOverHandler(const Vec2d& wins, int winner)
+{
+    story.gameTime = Time(nullptr);
+    story.starWins = story.starWins() + wins.x;
+    story.bubleWins = story.bubleWins() + wins.y;
+    story.starScore = m_plTwoScore;
+    story.bubleScore = m_plOneScore;
+    story.winner = winner;
 }
 
 bool GameModel::gameIsOver()
@@ -84,7 +97,7 @@ IView *GameModel::put(IView *sender)
         m_player == PLAYER1_CELL ? m_player = PLAYER2_CELL : m_player = PLAYER1_CELL;
         calculateScore();
         if(gameIsOver())
-            return nullptr;
+            return new EndView(this);
     }
 
     return sender;
@@ -98,6 +111,7 @@ IView *GameModel::keyEventsHandler(IView *sender, const int key)
     case 'a': if(m_cursor.selectorCell.pos.x > 0) m_cursor.selectorCell.pos -= Vec2d(1,0); break;
     case 's': if(m_cursor.selectorCell.pos.y < Size.y-1) m_cursor.selectorCell.pos += Vec2d(0,1); break;
     case 'd': if(m_cursor.selectorCell.pos.x < Size.x-1) m_cursor.selectorCell.pos += Vec2d(1,0); break;
+    case 'q': return new PauseMenuView(this);
     case 'x': discardSelect(); break;
     case ' ': return put(sender);
     }
@@ -107,6 +121,8 @@ IView *GameModel::keyEventsHandler(IView *sender, const int key)
 IView *GameModel::mouseEventsHandler(IView *sender, const MouseRecord &mr) {
     if(mr.type == MouseInputType::leftPressed) {
         return put(sender);
+    } else if (mr.type == MouseInputType::rightPressed) {
+        discardSelect();
     }
     return sender;
 }
