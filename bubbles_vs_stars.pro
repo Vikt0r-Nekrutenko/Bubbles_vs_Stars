@@ -40,3 +40,6 @@ HEADERS += \
     sprs/pause_menu.spr \
     sprs/end.spr \
     sprs/stats.spr \
+
+DISTFILES += \
+    README.MD
