@@ -12,7 +12,9 @@ auto cell1 = [](const Sprite& board, size_t i) -> const Vec2d {
 
 auto drawCell = [](Renderer &renderer, const Vec2d pos, uint8_t sym) -> void {
     if(sym != EMPTY_CELL)
-        renderer.drawPixel(pos, sym);
+        sym == PLAYER1_CELL
+                ? renderer.drawPixel(pos, sym, ColorTable::Cyan)
+                : renderer.drawPixel(pos, sym, ColorTable::Red);
 };
 
 GameView::GameView(BaseModel *model, bool resetTheModel)
